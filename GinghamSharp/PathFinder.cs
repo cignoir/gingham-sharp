@@ -61,12 +61,11 @@ namespace GinghamSharp
         public static List<Waypoint> FindSkillPath(Space space, Waypoint from, Waypoint to, int maxHeight = 10)
         {
             var path = new List<Waypoint> { from };
-            var lastWp = path.Last();
             var shouldMoveY = from.Direction == Direction.D8 || from.Direction == Direction.D2;
 
             var loopLimit = 0;
 
-            while (lastWp.Cell.X != to.Cell.X || lastWp.Cell.Y != to.Cell.Y)
+            while (path.Last().Cell.X != to.Cell.X || path.Last().Cell.Y != to.Cell.Y)
             {
                 loopLimit++;
                 if (loopLimit > 30)
@@ -74,88 +73,62 @@ namespace GinghamSharp
                     break;
                 }
 
-                if (shouldMoveY && lastWp.Cell.Y != to.Cell.Y)
+                if (shouldMoveY && path.Last().Cell.Y != to.Cell.Y)
                 {
-                    if (lastWp.Cell.Y < to.Cell.Y)
+                    if (path.Last().Cell.Y < to.Cell.Y)
                     {
-                        if (lastWp.Cell.Y + 1 != space.Depth)
+                        if (path.Last().Cell.Y + 1 != space.Depth)
                         {
-                            var height = space.HeightAt(lastWp.Cell.X, lastWp.Cell.Y + 1);
+                            var height = space.HeightAt(path.Last().Cell.X, path.Last().Cell.Y + 1);
                             if (height == null)
                             {
                                 height = 0;
                             }
-                            var cell = space.Cells[lastWp.Cell.X][lastWp.Cell.Y + 1][(int)height];
+                            var cell = space.Cells[path.Last().Cell.X][path.Last().Cell.Y + 1][(int)height];
                             if (!cell.IsPassable)
                             {
                                 break;
                             }
 
-                            if (lastWp.Direction == Direction.D8)
+                            if (path.Last().Direction != Direction.D8)
                             {
-                                if (cell.Z > maxHeight)
-                                {
-                                    break;
-                                }
-
-                                var wp = new Waypoint(cell, Direction.D8, lastWp);
-                                path.Add(wp);
-                                lastWp = wp;
+                                path.Add(new Waypoint(path.Last().Cell, Direction.D8, path.Last()));
                             }
-                            else
+
+                            if (cell.Z > maxHeight)
                             {
-                                var tmp = new Waypoint(lastWp.Cell, Direction.D8, lastWp);
-                                path.Add(tmp);
-
-                                if (cell.Z > maxHeight)
-                                {
-                                    break;
-                                }
-
-                                tmp = new Waypoint(cell, Direction.D8, tmp);
-                                path.Add(tmp);
-                                lastWp = tmp;
+                                break;
                             }
+                            
+                            path.Add(new Waypoint(cell, Direction.D8, path.Last()));
                         }
                     }
-                    else if(lastWp.Cell.Y > to.Cell.Y)
+                    else if(path.Last().Cell.Y > to.Cell.Y)
                     {
-                        if (lastWp.Cell.Y - 1 >= 0)
+                        if (path.Last().Cell.Y - 1 >= 0)
                         {
-                            var height = space.HeightAt(lastWp.Cell.X, lastWp.Cell.Y - 1);
+                            var height = space.HeightAt(path.Last().Cell.X, path.Last().Cell.Y - 1);
                             if (height == null)
                             {
                                 height = 0;
                             }
-                            var cell = space.Cells[lastWp.Cell.X][lastWp.Cell.Y - 1][(int)height];
+                            var cell = space.Cells[path.Last().Cell.X][path.Last().Cell.Y - 1][(int)height];
                             if (!cell.IsPassable)
                             {
                                 break;
                             }
 
-                            if (lastWp.Direction == Direction.D2)
+                            if (path.Last().Direction != Direction.D2)
                             {
-                                if (cell.Z > maxHeight)
-                                {
-                                    break;
-                                }
-                                var wp = new Waypoint(lastWp.Cell, Direction.D2, lastWp);
-                                path.Add(wp);
-                                lastWp = wp;
+                                path.Add(new Waypoint(path.Last().Cell, Direction.D2, path.Last()));
                             }
-                            else
-                            {
-                                var tmp = new Waypoint(lastWp.Cell, Direction.D2, lastWp);
-                                path.Add(tmp);
-                                if (cell.Z > maxHeight)
-                                {
-                                    break;
-                                }
 
-                                tmp = new Waypoint(cell, Direction.D2, tmp);
-                                path.Add(tmp);
-                                lastWp = tmp;
+                            if (cell.Z > maxHeight)
+                            {
+                                break;
                             }
+
+                            path.Add(new Waypoint(cell, Direction.D2, path.Last()));
                         }
                     }
 
@@ -167,84 +140,62 @@ namespace GinghamSharp
                     shouldMoveY = false;
                 }
 
-                if (!shouldMoveY && lastWp.Cell.X != to.Cell.X)
+                if (!shouldMoveY && path.Last().Cell.X != to.Cell.X)
                 {
-                    if (lastWp.Cell.X < to.Cell.X)
+                    if (path.Last().Cell.X < to.Cell.X)
                     {
-                        if (lastWp.Cell.X + 1 != space.Width)
+                        if (path.Last().Cell.X + 1 != space.Width)
                         {
-                            var height = space.HeightAt(lastWp.Cell.X + 1, lastWp.Cell.Y);
+                            var height = space.HeightAt(path.Last().Cell.X + 1, path.Last().Cell.Y);
                             if (height == null)
                             {
                                 height = 0;
                             }
-                            var cell = space.Cells[lastWp.Cell.X + 1][lastWp.Cell.Y][(int)height];
+                            var cell = space.Cells[path.Last().Cell.X + 1][path.Last().Cell.Y][(int)height];
                             if (!cell.IsPassable)
                             {
                                 break;
                             }
 
-                            if (lastWp.Direction == Direction.D6)
+                            if (path.Last().Direction != Direction.D6)
                             {
-                                if (cell.Z > maxHeight)
-                                {
-                                    break;
-                                }
-                                var wp = new Waypoint(cell, Direction.D6, lastWp);
-                                path.Add(wp);
-                                lastWp = wp;
+                                path.Add(new Waypoint(path.Last().Cell, Direction.D6, path.Last()));
                             }
-                            else
+
+                            if (cell.Z > maxHeight)
                             {
-                                var tmp = new Waypoint(lastWp.Cell, Direction.D6, lastWp);
-                                path.Add(tmp);
-                                if (cell.Z > maxHeight)
-                                {
-                                    break;
-                                }
-                                tmp = new Waypoint(cell, Direction.D6, tmp);
-                                path.Add(tmp);
-                                lastWp = tmp;
+                                break;
                             }
+
+                            path.Add(new Waypoint(cell, Direction.D6, path.Last()));
                         }
                     }
-                    else if (lastWp.Cell.X > to.Cell.X)
+                    else if (path.Last().Cell.X > to.Cell.X)
                     {
-                        if (lastWp.Cell.X - 1 >= 0)
+                        if (path.Last().Cell.X - 1 >= 0)
                         {
-                            var height = space.HeightAt(lastWp.Cell.X - 1, lastWp.Cell.Y);
+                            var height = space.HeightAt(path.Last().Cell.X - 1, path.Last().Cell.Y);
                             if (height == null)
                             {
                                 height = 0;
                             }
-                            var cell = space.Cells[lastWp.Cell.X - 1][lastWp.Cell.Y][(int)height];
+                            var cell = space.Cells[path.Last().Cell.X - 1][path.Last().Cell.Y][(int)height];
                             if (!cell.IsPassable)
                             {
                                 break;
                             }
 
-                            if (lastWp.Direction == Direction.D4)
+                            if (path.Last().Direction != Direction.D4)
                             {
-                                if (cell.Z > maxHeight)
-                                {
-                                    break;
-                                }
-                                var wp = new Waypoint(cell, Direction.D4, lastWp);
-                                path.Add(wp);
-                                lastWp = wp;
+                                path.Add(new Waypoint(path.Last().Cell, Direction.D4, path.Last()));
                             }
-                            else
+
+                            if (cell.Z > maxHeight)
                             {
-                                var tmp = new Waypoint(lastWp.Cell, Direction.D4, lastWp);
-                                path.Add(tmp);
-                                if (cell.Z > maxHeight)
-                                {
-                                    break;
-                                }
-                                tmp = new Waypoint(cell, Direction.D4, tmp);
-                                path.Add(tmp);
-                                lastWp = tmp;
+                                break;
                             }
+
+                            path.Add(new Waypoint(cell, Direction.D4, path.Last()));
                         }
                     }
                 }
