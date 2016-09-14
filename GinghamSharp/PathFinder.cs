@@ -8,7 +8,7 @@ namespace GinghamSharp
 {
     class PathFinder
     {
-        public static List<Waypoint> FindMovePath(Space space, Waypoint from, Waypoint to, int costLimit = 999)
+        public static List<Waypoint> FindMovePath(Space space, Waypoint from, Waypoint to, int movePower = 999, int jumpPower = 999)
         {
             var openList = new List<Waypoint> { from };
             if (from.Cell == to.Cell)
@@ -25,10 +25,10 @@ namespace GinghamSharp
                 closeList.Add(currentWp);
                 openList.RemoveAt(0);
 
-                var adjacentWaypoints = FindAdjacentWaypoints(space, currentWp);
+                var adjacentWaypoints = FindAdjacentWaypoints(space, currentWp, jumpPower);
                 foreach (var wp in adjacentWaypoints)
                 {
-                    if (wp.SumCost < costLimit)
+                    if (wp.SumCost < movePower)
                     {
                         if (!closeList.Contains(wp))
                         {
@@ -58,7 +58,7 @@ namespace GinghamSharp
             return shortestChains;
         }
 
-        public static List<Waypoint> FindSkillPath(Space space, Waypoint from, Waypoint to, int maxHeight = 10)
+        public static List<Waypoint> FindSkillPath(Space space, Waypoint from, Waypoint to, int maxHeight = 999)
         {
             var path = new List<Waypoint> { from };
             var shouldMoveY = from.Direction == Direction.D8 || from.Direction == Direction.D2;
@@ -205,10 +205,10 @@ namespace GinghamSharp
             return path.Where(wp => wp != null).ToList();
         }
 
-        public static List<Waypoint> FindAdjacentWaypoints(Space space, Waypoint wp)
+        public static List<Waypoint> FindAdjacentWaypoints(Space space, Waypoint wp, int jumpPower = 999)
         {
             var adjacentList = new List<Waypoint>();
-            var adjacentCells = FindAdjacentCells(space, wp.Cell);
+            var adjacentCells = FindAdjacentCells(space, wp.Cell, jumpPower);
             foreach (var cell in adjacentCells)
             {
                 var moveDirection = Waypoint.DetectDirection(wp, cell);
@@ -224,7 +224,7 @@ namespace GinghamSharp
             return adjacentList;
         }
 
-        public static List<Cell> FindAdjacentCells(Space space, Cell cell)
+        public static List<Cell> FindAdjacentCells(Space space, Cell cell, int jumpPower = 999)
         {
             var w = space.Width;
             var d = space.Depth;
@@ -237,36 +237,48 @@ namespace GinghamSharp
             if (x + 1 < w)
             {
                 var targetCell = space.Cells[x + 1][y][z];
-                if (targetCell != null && !targetCell.IsOccupied)
+                if (targetCell != null)
                 {
-                    adjacentList.Add(targetCell);
+                    if (!targetCell.IsOccupied || Math.Abs(z - targetCell.Z) <= jumpPower)
+                    {
+                        adjacentList.Add(targetCell);
+                    }
                 }
             }
 
             if (x - 1 >= 0)
             {
                 var targetCell = space.Cells[x - 1][y][z];
-                if (targetCell != null && !targetCell.IsOccupied)
+                if (targetCell != null)
                 {
-                    adjacentList.Add(targetCell);
+                    if (!targetCell.IsOccupied || Math.Abs(z - targetCell.Z) <= jumpPower)
+                    {
+                        adjacentList.Add(targetCell);
+                    }
                 }
             }
 
             if (y + 1 < d)
             {
                 var targetCell = space.Cells[x][y + 1][z];
-                if (targetCell != null && !targetCell.IsOccupied)
+                if (targetCell != null)
                 {
-                    adjacentList.Add(targetCell);
+                    if (!targetCell.IsOccupied || Math.Abs(z - targetCell.Z) <= jumpPower)
+                    {
+                        adjacentList.Add(targetCell);
+                    }
                 }
             }
 
             if (y - 1 >= 0)
             {
                 var targetCell = space.Cells[x][y - 1][z];
-                if (targetCell != null && !targetCell.IsOccupied)
+                if (targetCell != null)
                 {
-                    adjacentList.Add(targetCell);
+                    if (!targetCell.IsOccupied || Math.Abs(z - targetCell.Z) <= jumpPower)
+                    {
+                        adjacentList.Add(targetCell);
+                    }
                 }
             }
 

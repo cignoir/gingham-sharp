@@ -9,8 +9,8 @@ namespace GinghamSharp
     class Space
     {
         public int Width { get; set; }
-        public int Height { get; set; }
         public int Depth { get; set; }
+        public int Height { get; set; }
         public Cell[][][] Cells { get; set; }
 
         public Space(int width = 0, int depth = 0, int height = 0)

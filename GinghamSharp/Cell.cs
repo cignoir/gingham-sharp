@@ -53,5 +53,11 @@ namespace GinghamSharp
         {
             return this.ToString();
         }
+
+        public Cell SetGround()
+        {
+            this.IsGround = true;
+            return this;
+        }
     }
 }

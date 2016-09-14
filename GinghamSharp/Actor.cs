@@ -14,13 +14,17 @@ namespace GinghamSharp
         public int TeamId { get; set; }
         public MoveStatus MoveStatus { get; set; }
         public bool IsMoveEnd { get { return this.MoveStatus == MoveStatus.FINISHED || this.MoveStatus == MoveStatus.STOPPED; } }
+        public int MovePower { get; set; }
+        public int JumpPower { get; set; }
 
-        public Actor(Waypoint waypoint, int weight = 100, int teamId = 0)
+        public Actor(Waypoint waypoint, int weight = 100, int teamId = 0, int movePower = 999, int jumpPower = 999)
         {
             this.Waypoint = waypoint;
             this.Weight = weight;
             this.TeamId = teamId;
             this.MoveStatus = MoveStatus.DEFAULT;
+            this.MovePower = movePower;
+            this.JumpPower = jumpPower;
         }
     }
 }
