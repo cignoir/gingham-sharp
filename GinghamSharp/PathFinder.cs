@@ -28,7 +28,7 @@ namespace GinghamSharp
                 var adjacentWaypoints = FindAdjacentWaypoints(space, currentWp, jumpPower);
                 foreach (var wp in adjacentWaypoints)
                 {
-                    if (wp.SumCost < movePower)
+                    if (wp.SumCost <= movePower)
                     {
                         if (!closeList.Contains(wp))
                         {
@@ -239,7 +239,7 @@ namespace GinghamSharp
                 var targetCell = space.Cells[x + 1][y][z];
                 if (targetCell != null)
                 {
-                    if (!targetCell.IsOccupied || Math.Abs(z - targetCell.Z) <= jumpPower)
+                    if (!targetCell.IsOccupied && Math.Abs(z - targetCell.Z) <= jumpPower)
                     {
                         adjacentList.Add(targetCell);
                     }
@@ -251,7 +251,7 @@ namespace GinghamSharp
                 var targetCell = space.Cells[x - 1][y][z];
                 if (targetCell != null)
                 {
-                    if (!targetCell.IsOccupied || Math.Abs(z - targetCell.Z) <= jumpPower)
+                    if (!targetCell.IsOccupied && Math.Abs(z - targetCell.Z) <= jumpPower)
                     {
                         adjacentList.Add(targetCell);
                     }
@@ -263,7 +263,7 @@ namespace GinghamSharp
                 var targetCell = space.Cells[x][y + 1][z];
                 if (targetCell != null)
                 {
-                    if (!targetCell.IsOccupied || Math.Abs(z - targetCell.Z) <= jumpPower)
+                    if (!targetCell.IsOccupied && Math.Abs(z - targetCell.Z) <= jumpPower)
                     {
                         adjacentList.Add(targetCell);
                     }
@@ -275,7 +275,7 @@ namespace GinghamSharp
                 var targetCell = space.Cells[x][y - 1][z];
                 if (targetCell != null)
                 {
-                    if (!targetCell.IsOccupied || Math.Abs(z - targetCell.Z) <= jumpPower)
+                    if (!targetCell.IsOccupied && Math.Abs(z - targetCell.Z) <= jumpPower)
                     {
                         adjacentList.Add(targetCell);
                     }
