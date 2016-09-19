@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GinghamSharp
 {
-    class Actor
+    public class Actor
     {
         public Waypoint Waypoint { get; set; }
         public int Weight { get; set; }

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GinghamSharp
 {
-    class PathFinder
+    public class PathFinder
     {
         public static List<Waypoint> FindMovePath(Space space, Waypoint from, Waypoint to, int movePower = 999, int jumpPower = 999)
         {

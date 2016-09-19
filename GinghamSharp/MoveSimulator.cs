@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GinghamSharp
 {
-    class MoveSimulator
+    public class MoveSimulator
     {
         public List<Actor> NextStep(int currentStepIndex, List<Actor> actors)
         {
