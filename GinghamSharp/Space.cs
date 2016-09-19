@@ -18,13 +18,16 @@ namespace GinghamSharp
             this.Depth = depth;
             this.Height = height;
 
+            Cells = new Cell[width][][];
             for (int x = 0; x < this.Width; x++)
             {
-                for (int y = 0; x < this.Depth; y++)
+                Cells[x] = new Cell[depth][];
+                for (int y = 0; y < this.Depth; y++)
                 {
-                    for (int z = 0; x < this.Height; z++)
+                    Cells[x][y] = new Cell[height];
+                    for (int z = 0; z < this.Height; z++)
                     {
-                        this.Cells[x][y][z] = new Cell(x, y, z);
+                        Cells[x][y][z] = new Cell(x, y, z);
                     }
                 }
             }
