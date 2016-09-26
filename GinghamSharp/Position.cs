@@ -17,5 +17,15 @@ namespace GinghamSharp
             this.Y = y;
             this.Z = z;
         }
+
+        public override string ToString()
+        {
+            return string.Format("({0},{1},{2})", this.X, this.Y, this.Z);
+        }
+
+        public string Inspect()
+        {
+            return this.ToString();
+        }
     }
 }

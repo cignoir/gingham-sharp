@@ -9,9 +9,21 @@ namespace GinghamSharp
     {
         public static List<Waypoint> FindMovePath(Space space, Waypoint from, Waypoint to, int movePower = 999, int jumpPower = 999)
         {
+            for (int x = 0; x < space.Width; x++)
+            {
+                for (int y = 0; y < space.Depth; y++)
+                {
+                    for (int z = 0; z < space.Height; z++)
+                    {
+                        space.Cells[x][y][z].ClearPath();
+                    }
+                }
+            }
+
             var openList = new List<Waypoint> { from };
             if (from.Cell == to.Cell)
             {
+                from.Cell.IsMovePath = true;
                 return openList;
             }
 
@@ -52,6 +64,11 @@ namespace GinghamSharp
                         shortestChains = endWp.Chains;
                     }
                 }
+            }
+
+            foreach (Waypoint wp in shortestChains)
+            {
+                wp.Cell.IsMovePath = true;
             }
 
             return shortestChains;
