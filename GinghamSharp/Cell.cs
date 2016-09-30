@@ -11,7 +11,7 @@ namespace GinghamSharp
         public int Y { get; set; }
         public int Z { get; set; }
         public bool IsOccupied { get; set; }
-        public bool IsPassable { get { return !IsOccupied; } }
+        public bool IsPassable { get; set; }
         public bool IsGround { get; set; }
         public bool IsSky { get { return !IsGround; } }
         public bool IsMovePath { get; set; }
@@ -24,6 +24,7 @@ namespace GinghamSharp
             this.Z = z;
 
             this.IsOccupied = false;
+            this.IsPassable = false;
             this.IsGround = false;
             this.IsMovePath = false;
             this.IsLocked = false;
@@ -68,6 +69,7 @@ namespace GinghamSharp
             if (!this.IsLocked)
             {
                 this.IsMovePath = false;
+                this.IsPassable = false;
             }
         }
 

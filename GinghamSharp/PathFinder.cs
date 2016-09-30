@@ -12,12 +12,6 @@ namespace GinghamSharp
             space.ResetMovePathInfo(false);
 
             var openList = new List<Waypoint> { from };
-            if (from.Cell == to.Cell)
-            {
-                from.Cell.IsMovePath = true;
-                return from.Chains;
-            }
-
             var closeList = new List<Waypoint>();
             int loopLimit = 0;
 
@@ -34,6 +28,7 @@ namespace GinghamSharp
                     {
                         if (!closeList.Contains(wp))
                         {
+                            wp.Cell.IsPassable = true;
                             openList.Add(wp);
                         }
                     }
@@ -92,7 +87,7 @@ namespace GinghamSharp
                                 height = 0;
                             }
                             var cell = space.Cells[path.Last().Cell.X][path.Last().Cell.Y + 1][(int)height];
-                            if (!cell.IsPassable)
+                            if (cell.IsOccupied)
                             {
                                 break;
                             }
@@ -120,7 +115,7 @@ namespace GinghamSharp
                                 height = 0;
                             }
                             var cell = space.Cells[path.Last().Cell.X][path.Last().Cell.Y - 1][(int)height];
-                            if (!cell.IsPassable)
+                            if (cell.IsOccupied)
                             {
                                 break;
                             }
@@ -159,7 +154,7 @@ namespace GinghamSharp
                                 height = 0;
                             }
                             var cell = space.Cells[path.Last().Cell.X + 1][path.Last().Cell.Y][(int)height];
-                            if (!cell.IsPassable)
+                            if (cell.IsOccupied)
                             {
                                 break;
                             }
@@ -187,7 +182,7 @@ namespace GinghamSharp
                                 height = 0;
                             }
                             var cell = space.Cells[path.Last().Cell.X - 1][path.Last().Cell.Y][(int)height];
-                            if (!cell.IsPassable)
+                            if (cell.IsOccupied)
                             {
                                 break;
                             }
