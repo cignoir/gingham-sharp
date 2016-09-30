@@ -14,6 +14,9 @@ namespace GinghamSharp
         public int SumCost { get; set; }
         public List<Waypoint> Chains { get; set; }
 
+        // 移動経路上をクリックした際、クリックした地点までをロック扱いにする
+        public bool IsLocked { get; set; }
+
         public bool IsTurning { get { return this.Parent != null ? this.Parent.Cell == this.Cell : false; } }
         public bool IsMoving { get { return !IsTurning; } }
 
@@ -162,6 +165,18 @@ namespace GinghamSharp
         public string Inspect()
         {
             return this.ToString();
+        }
+
+        public void Lock()
+        {
+            this.IsLocked = true;
+            this.Cell.Lock();
+        }
+
+        public void Unlock()
+        {
+            this.IsLocked = false;
+            this.Cell.Unlock();
         }
     }
 }

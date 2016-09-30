@@ -24,6 +24,27 @@ namespace GinghamSharp
             this.MoveStatus = MoveStatus.DEFAULT;
             this.MovePower = movePower;
             this.JumpPower = jumpPower;
+
+            this.MoveSteps = new List<Waypoint>() { waypoint };
+        }
+
+        public void ClearMoveSteps(bool force = false)
+        {
+            if (force)
+            {
+                this.MoveSteps = new List<Waypoint>() { this.Waypoint };
+                this.Waypoint.Cell.IsMovePath = true;
+            }
+            else
+            {
+                if (this.MoveSteps.Count == 0)
+                {
+                    this.MoveSteps = new List<Waypoint>() { this.Waypoint };
+                } else
+                {
+                    this.MoveSteps = this.MoveSteps.Where(wp => wp.IsLocked).ToList();
+                }
+            }
         }
     }
 }

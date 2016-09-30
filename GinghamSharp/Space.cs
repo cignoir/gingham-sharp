@@ -137,5 +137,24 @@ namespace GinghamSharp
             }
             return result.Distinct().ToList();
         }
+
+        public void ResetMovePathInfo(bool force = false)
+        {
+            for (int x = 0; x < this.Width; x++)
+            {
+                for (int y = 0; y < this.Depth; y++)
+                {
+                    for (int z = 0; z < this.Height; z++)
+                    {
+                        var cell = this.Cells[x][y][z];
+                        if (force)
+                        {
+                            cell.Unlock();
+                        }
+                        cell.ClearPath();
+                    }
+                }
+            }
+        }
     }
 }

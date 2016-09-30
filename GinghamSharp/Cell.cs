@@ -15,6 +15,7 @@ namespace GinghamSharp
         public bool IsGround { get; set; }
         public bool IsSky { get { return !IsGround; } }
         public bool IsMovePath { get; set; }
+        public bool IsLocked { get; set; }
         
         public Cell(int x = 0, int y = 0, int z = 0)
         {
@@ -25,6 +26,7 @@ namespace GinghamSharp
             this.IsOccupied = false;
             this.IsGround = false;
             this.IsMovePath = false;
+            this.IsLocked = false;
         }
 
         public override bool Equals(System.Object obj)
@@ -63,7 +65,20 @@ namespace GinghamSharp
 
         public void ClearPath()
         {
-            this.IsMovePath = false;
+            if (!this.IsLocked)
+            {
+                this.IsMovePath = false;
+            }
+        }
+
+        public void Lock()
+        {
+            this.IsLocked = true;
+        }
+
+        public void Unlock()
+        {
+            this.IsLocked = false;
         }
     }
 }
