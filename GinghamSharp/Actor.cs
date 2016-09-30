@@ -40,11 +40,18 @@ namespace GinghamSharp
                 if (this.MoveSteps.Count == 0)
                 {
                     this.MoveSteps = new List<Waypoint>() { this.Waypoint };
-                } else
+                    this.Waypoint.Cell.IsMovePath = true;
+                }
+                else
                 {
                     this.MoveSteps = this.MoveSteps.Where(wp => wp.IsLocked).ToList();
                 }
             }
+        }
+
+        public string DumpMoveSteps()
+        {
+            return string.Join("->", this.MoveSteps.Select(wp => wp.Cell.ToString()).ToArray());
         }
     }
 }

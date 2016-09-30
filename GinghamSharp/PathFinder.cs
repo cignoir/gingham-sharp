@@ -15,7 +15,7 @@ namespace GinghamSharp
             if (from.Cell == to.Cell)
             {
                 from.Cell.IsMovePath = true;
-                return openList;
+                return from.Chains;
             }
 
             var closeList = new List<Waypoint>();
@@ -41,7 +41,7 @@ namespace GinghamSharp
                 loopLimit++;
             }
 
-            var shortestChains = new List<Waypoint> { from };
+            var shortestChains = from.Chains;
             var endPoints = closeList.Where(closed => closed.Cell == to.Cell);
 
             if (endPoints.Count() != 0)
