@@ -7,7 +7,7 @@ namespace GinghamSharp
 {
     public class PathFinder
     {
-        public static List<Waypoint> FindMovePath(Space space, Waypoint from, Waypoint to, int movePower = 999, int jumpPower = 999)
+        public static List<Waypoint> FindMovePath(Space space, Waypoint from, Waypoint to, int movePower = 999, int jumpPower = 999, int margin = 0)
         {
             space.ResetMovePathInfo(false);
 
@@ -24,7 +24,7 @@ namespace GinghamSharp
                 var adjacentWaypoints = FindAdjacentWaypoints(space, currentWp, jumpPower);
                 foreach (var wp in adjacentWaypoints)
                 {
-                    if (wp.SumCost <= movePower)
+                    if ((wp.SumCost + margin) <= movePower)
                     {
                         if (!closeList.Contains(wp))
                         {
