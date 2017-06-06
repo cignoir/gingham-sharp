@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Actor.cs" />
     <Compile Include="Cell.cs" />
+    <Compile Include="DeepCopyUtils.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="MoveFrame.cs" />
     <Compile Include="MoveSimulator.cs" />

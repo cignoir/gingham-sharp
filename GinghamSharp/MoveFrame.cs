@@ -14,7 +14,12 @@ namespace GinghamSharp
         public MoveFrame(int index, List<Actor> actors)
         {
             this.Index = index;
-            this.Actors = Clone.ObjectGraph(actors);
+            var list = new List<Actor>();
+            foreach (var actor in actors)
+            {
+                list.Add(new Actor(actor.Code, actor.Waypoint));
+            }
+            this.Actors = list;
         }
     }
 

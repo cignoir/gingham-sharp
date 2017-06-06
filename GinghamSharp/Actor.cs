@@ -7,6 +7,7 @@ namespace GinghamSharp
 {
     public class Actor
     {
+        public int Code { get; set; }
         public Waypoint Waypoint { get; set; }
         public int Weight { get; set; }
         public List<Waypoint> MoveSteps { get; set; }
@@ -16,8 +17,9 @@ namespace GinghamSharp
         public int MovePower { get; set; }
         public int JumpPower { get; set; }
 
-        public Actor(Waypoint waypoint, int weight = 100, int teamId = 0, int movePower = 999, int jumpPower = 999)
+        public Actor(int code, Waypoint waypoint, int weight = 100, int teamId = 0, int movePower = 999, int jumpPower = 999)
         {
+            this.Code = code;
             this.Waypoint = waypoint;
             this.Weight = weight;
             this.TeamId = teamId;
