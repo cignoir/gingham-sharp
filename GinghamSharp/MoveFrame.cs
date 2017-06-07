@@ -17,7 +17,9 @@ namespace GinghamSharp
             var list = new List<Actor>();
             foreach (var actor in actors)
             {
-                list.Add(new Actor(actor.Code, actor.Waypoint));
+                var newActor = new Actor(actor.Code, actor.Waypoint);
+                newActor.MoveSteps = actor.MoveSteps;
+                list.Add(newActor);
             }
             this.Actors = list;
         }

@@ -53,7 +53,7 @@ namespace GinghamSharp
 
         public string DumpMoveSteps()
         {
-            return string.Join("->", this.MoveSteps.Select(wp => wp.Cell.ToString()).ToArray());
+            return string.Join("->", this.MoveSteps.Select(wp => wp.ToString()).ToArray());
         }
     }
 }
