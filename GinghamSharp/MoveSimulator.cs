@@ -73,7 +73,8 @@ namespace GinghamSharp
             var notEndActors = actors.Where(a => !a.IsMoveEnd);
             if (notEndActors != null && notEndActors.Count() > 0)
             {
-                isAllStayed = notEndActors.Select(a => a.MoveStatus).Distinct().First() == MoveStatus.STAY;
+                var statuses = notEndActors.Select(a => a.MoveStatus).Distinct();
+                isAllStayed = statuses.Count() == 1 && statuses.First() == MoveStatus.STAY;
             }
 
             var index = 0;
@@ -89,7 +90,8 @@ namespace GinghamSharp
                 notEndActors = actors.Where(a => !a.IsMoveEnd);
                 if (notEndActors != null && notEndActors.Count() > 0)
                 {
-                    isAllStayed = notEndActors.Select(a => a.MoveStatus).Distinct().First() == MoveStatus.STAY;
+                    var statuses = notEndActors.Select(a => a.MoveStatus).Distinct();
+                    isAllStayed = statuses.Count() == 1 && statuses.Distinct().First() == MoveStatus.STAY;
                 }
             }
 
